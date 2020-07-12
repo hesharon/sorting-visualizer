@@ -29,25 +29,27 @@ class SortingVisualizer extends React.Component {
     this.setState({ array });
   }
 
+  colorBars(chosenColor, animations, index, arrayBars) {
+    const color = index % 3 === 0 ? chosenColor : "grey";
+    const [barOneIndex, barTwoIndex] = animations[index];
+    const barOneStyle = arrayBars[barOneIndex].style;
+    const barTwoStyle = arrayBars[barTwoIndex].style;
+    setTimeout(() => {
+      barOneStyle.backgroundColor = color;
+      barTwoStyle.backgroundColor = color;
+    }, index * this.state.value);
+  }
+
   mergeSort() {
     const animations = MergeSort.getMergeSortAnimations(this.state.array);
     for (let i = 0; i < animations.length; i++) {
       const arrayBars = document.getElementsByClassName("array-bar");
       const isColorChange = i % 3 !== 2;
       if (isColorChange) {
-        const color = i % 3 === 0 ? "red" : "grey";
-        const barOneIndex = animations[i][0];
-        const barTwoIndex = animations[i][1];
-        const barOneStyle = arrayBars[barOneIndex].style;
-        const barTwoStyle = arrayBars[barTwoIndex].style;
-        setTimeout(() => {
-          barOneStyle.backgroundColor = color;
-          barTwoStyle.backgroundColor = color;
-        }, i * this.state.value); // TODO: Figure out how to change speed to go the other way around
+        this.colorBars("red", animations, i, arrayBars);
       } else {
         setTimeout(() => {
-          const barOneIndex = animations[i][0];
-          const newHeight = animations[i][1];
+          const [barOneIndex, newHeight] = animations[i];
           const barOneStyle = arrayBars[barOneIndex].style;
           barOneStyle.height = `${newHeight}px`;
         }, i * this.state.value);
@@ -55,31 +57,21 @@ class SortingVisualizer extends React.Component {
     }
   }
 
-  async quickSort() {
+  quickSort() {
     // const sorted = this.state.array.sort((a, b) => a - b);
     // const quickArray = QuickSort.getQuickSortAnimations(this.state.array);
     // console.log(areArraysEqual(sorted, quickArray));
     const quickSortAnimations = QuickSort.getQuickSortAnimations(
       this.state.array
     );
-    console.log(quickSortAnimations);
     for (let i = 0; i < quickSortAnimations.length; i++) {
       const arrayBars = document.getElementsByClassName("array-bar");
       const isColorChange = i % 3 !== 2;
       if (isColorChange) {
-        const color = i % 3 === 0 ? "blue" : "grey";
-        const barOneIndex = quickSortAnimations[i][0];
-        const barTwoIndex = quickSortAnimations[i][1];
-        const barOneStyle = arrayBars[barOneIndex].style;
-        const barTwoStyle = arrayBars[barTwoIndex].style;
-        setTimeout(() => {
-          barOneStyle.backgroundColor = color;
-          barTwoStyle.backgroundColor = color;
-        }, i * this.state.value); // TODO: Figure out how to change speed to go the other way around
+        this.colorBars("red", quickSortAnimations, i, arrayBars);
       } else {
         setTimeout(() => {
-          const barOneIndex = quickSortAnimations[i][0];
-          const barTwoIndex = quickSortAnimations[i][1];
+          const [barOneIndex, barTwoIndex] = quickSortAnimations[i];
           if (barOneIndex != null && barTwoIndex != null) {
             const barOneStyle = arrayBars[barOneIndex].style;
             const barTwoStyle = arrayBars[barTwoIndex].style;
@@ -198,6 +190,10 @@ function areArraysEqual(arr1, arr2) {
     if (arr1[i] !== arr2[i]) return false;
   }
   return true;
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export default SortingVisualizer;
