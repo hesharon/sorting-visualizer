@@ -4,8 +4,8 @@ import Button from "@material-ui/core/Button";
 import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Input from "@material-ui/core/Input";
-import * as sortingAlgorithms from "../SortingAlgorithms/SortingAlgorithms.js";
+import * as MergeSort from "../SortingAlgorithms/MergeSort.js";
+import * as QuickSort from "../SortingAlgorithms/QuickSort.js";
 
 class SortingVisualizer extends React.Component {
   constructor(props) {
@@ -30,9 +30,7 @@ class SortingVisualizer extends React.Component {
   }
 
   mergeSort() {
-    const animations = sortingAlgorithms.getMergeSortAnimations(
-      this.state.array
-    );
+    const animations = MergeSort.getMergeSortAnimations(this.state.array);
     for (let i = 0; i < animations.length; i++) {
       const arrayBars = document.getElementsByClassName("array-bar");
       const isColorChange = i % 3 !== 2;
@@ -57,18 +55,14 @@ class SortingVisualizer extends React.Component {
     }
   }
 
-  quickSort() {
-    // for (let i = 0; i < 100; i++) {
-    //   const sorted = this.state.array.sort((a, b) => a - b);
-    //   const quickArray = sortingAlgorithms.getQuickSortAnimations(
-    //     this.state.array
-    //   );
-    //   console.log(areArraysEqual(sorted, quickArray));
-    //   this.resetArray();
-    // }
-    const quickSortAnimations = sortingAlgorithms.getQuickSortAnimations(
+  async quickSort() {
+    // const sorted = this.state.array.sort((a, b) => a - b);
+    // const quickArray = QuickSort.getQuickSortAnimations(this.state.array);
+    // console.log(areArraysEqual(sorted, quickArray));
+    const quickSortAnimations = QuickSort.getQuickSortAnimations(
       this.state.array
     );
+    console.log(quickSortAnimations);
     for (let i = 0; i < quickSortAnimations.length; i++) {
       const arrayBars = document.getElementsByClassName("array-bar");
       const isColorChange = i % 3 !== 2;
