@@ -2,42 +2,53 @@
 // Video on how quicksort works: https://www.youtube.com/watch?v=MZaf_9IZCrc
 export function getQuickSortAnimations(array) {
   if (array.length <= 1) return array;
-  const quickSortAnimations = [];
-  quickSortHelper(array, 0, array.length - 1, quickSortAnimations);
-  return quickSortAnimations;
+  const animations = [];
+  quickSortHelper(array, 0, array.length - 1, animations);
+  return animations;
 }
 
-function quickSortHelper(array, start, end, quickSortAnimations) {
+function quickSortHelper(array, start, end, animations) {
   var pivot, partitionIndex;
 
   if (start < end) {
     pivot = end;
-    partitionIndex = partition(array, pivot, start, end, quickSortAnimations);
+    partitionIndex = partition(array, pivot, start, end, animations);
 
-    quickSortHelper(array, start, partitionIndex - 1, quickSortAnimations);
-    quickSortHelper(array, partitionIndex + 1, end, quickSortAnimations);
+    quickSortHelper(array, start, partitionIndex - 1, animations);
+    quickSortHelper(array, partitionIndex + 1, end, animations);
   }
 }
 
-function partition(array, pivot, start, end, quickSortAnimations) {
+function partition(array, pivot, start, end, animations) {
   var pivotValue = array[pivot],
     partitionIndex = start;
 
+  let newHeight, newHeight2;
   for (var i = start; i < end; i++) {
-    quickSortAnimations.push([i, pivot]);
-    quickSortAnimations.push([i, pivot]);
+    animations.push([i, pivot]);
+    animations.push([i, pivot]);
+
     if (array[i] < pivotValue) {
-      quickSortAnimations.push([i, partitionIndex]);
+      newHeight = array[i];
+      newHeight2 = array[partitionIndex];
+      animations.push([i, newHeight2]);
+      animations.push([partitionIndex, newHeight]);
       swap(array, i, partitionIndex);
       partitionIndex++;
     } else {
-      quickSortAnimations.push([null, null]);
+      animations.push([null, null]);
+      animations.push([null, null]);
     }
   }
-  quickSortAnimations.push([end, partitionIndex]);
-  quickSortAnimations.push([end, partitionIndex]);
-  quickSortAnimations.push([end, partitionIndex]);
+  newHeight = array[end];
+  newHeight2 = array[partitionIndex];
+
+  animations.push([end, partitionIndex]);
+  animations.push([end, partitionIndex]);
+  animations.push([end, newHeight2]);
+  animations.push([partitionIndex, newHeight]);
   swap(array, end, partitionIndex);
+
   return partitionIndex;
 }
 

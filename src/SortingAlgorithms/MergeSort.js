@@ -11,6 +11,7 @@ export function getMergeSortAnimations(array) {
 function mergeSortHelper(array, aux, animations, start, end) {
   if (start === end) return;
   const mid = Math.floor((start + end) / 2);
+
   mergeSortHelper(aux, array, animations, start, mid);
   mergeSortHelper(aux, array, animations, mid + 1, end);
   merge(array, aux, animations, start, mid, end);
@@ -20,6 +21,7 @@ function merge(array, aux, animations, start, mid, end) {
   let i = start,
     j = mid + 1,
     k = start;
+
   while (i <= mid && j <= end) {
     animations.push([i, j]);
     animations.push([i, j]);
