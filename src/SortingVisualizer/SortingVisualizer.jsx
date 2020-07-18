@@ -11,6 +11,7 @@ import { Toolbar } from "@material-ui/core";
 import * as InsertionSort from "../SortingAlgorithms/InsertionSort.js";
 import * as BubbleSort from "../SortingAlgorithms/BubbleSort.js";
 import * as SelectionSort from "../SortingAlgorithms/SelectionSort.js";
+import * as HeapSort from "../SortingAlgorithms/HeapSort.js";
 
 class SortingVisualizer extends React.Component {
   constructor(props) {
@@ -151,6 +152,21 @@ class SortingVisualizer extends React.Component {
     }
   }
 
+  heapSort() {
+    const animations = HeapSort.getHeapSortAnimations(this.state.array);
+    // console.log(animations);
+    // const sorted = this.state.array.sort((a, b) => a - b);
+    // console.log(areArraysEqual(animations, sorted));
+    const arrayBars = document.getElementsByClassName("array-bar");
+    for (let i = 0; i < animations.length; i++) {
+      setTimeout(() => {
+        const [barOneIndex, newHeight] = animations[i];
+        const barOneStyle = arrayBars[barOneIndex].style;
+        barOneStyle.height = `${newHeight}px`;
+      }, i * this.state.value);
+    }
+  }
+
   handleSliderChange = (event, newValue) => {
     this.setState({ value: newValue });
   };
@@ -221,6 +237,14 @@ class SortingVisualizer extends React.Component {
             style={{ margin: 5 }}
           >
             Selection sort
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => this.heapSort()}
+            style={{ margin: 5 }}
+          >
+            Heap sort
           </Button>
         </div>
         <Typography id="input-slider" gutterBottom>
